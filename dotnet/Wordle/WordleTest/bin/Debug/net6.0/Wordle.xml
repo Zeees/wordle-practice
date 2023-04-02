@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Wordle</name>
+    </assembly>
+    <members>
+        <member name="T:Wordle.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:Wordle.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Wordle.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Wordle.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Wordle.Models.Domain.GuessRequest">
+            <summary>
+                Request model used for performing a guess.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.GuessRequest.GameID">
+            <summary>
+                The user's game session ID.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.GuessRequest.Guess">
+            <summary>
+                The user's guess as a string.
+            </summary>
+        </member>
+        <member name="T:Wordle.Models.Domain.GuessResponse">
+            <summary>
+                Response received after calling the guess endpoint.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.GuessResponse.GameID">
+            <summary>
+                ID of the active game.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.GuessResponse.Guess">
+            <summary>
+                The guessed word as a string.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.GuessResponse.Letters">
+            <summary>
+                Each letter in the guessed word and what status they have (wrong letter, wrong position, correct)
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.GuessResponse.IsCorrect">
+            <summary>
+                Was the guess correct?
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.GuessResponse.IsValid">
+            <summary>
+                Was the guess a valid word?
+            </summary>
+        </member>
+        <member name="T:Wordle.Models.Domain.InitialGameResponse">
+            <summary>
+                Response for initilizing a game of Wordle.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.InitialGameResponse.GameID">
+            <summary>
+                Id for the initilized game.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.InitialGameResponse.WordLength">
+            <summary>
+                Length of the word to guess.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.InitialGameResponse.NumberOfAttempts">
+            <summary>
+                Number of attempts allowed. 
+            </summary>
+        </member>
+        <member name="T:Wordle.Models.Domain.InitiateGameRequest">
+            <summary>
+                Request for initilizing a game of Wordle.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.InitiateGameRequest.WordLength">
+            <summary>
+                Length of the word used in the game.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.InitiateGameRequest.NumberOfAttempts">
+            <summary>
+                Number of attempts the player has to figure out the word.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.PublicGameInfo.GameId">
+            <summary>
+                Game session id for the active game.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.PublicGameInfo.WordLength">
+            <summary>
+                Length of the word to guess.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.PublicGameInfo.MaxAttempts">
+            <summary>
+                Maximum number of attempts to guess the word.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.PublicGameInfo.Attempts">
+            <summary>
+                Number of attempts made so far.
+            </summary>
+        </member>
+        <member name="P:Wordle.Models.Domain.PublicGameInfo.Guesses">
+            <summary>
+                All guesses and results so far.
+            </summary>
+        </member>
+        <member name="T:Wordle.Models.Domain.LetterStatus">
+            <summary>
+                Status of the letter. Is it in the wrong position, the right position or is it not in the word at all?
+            </summary>
+        </member>
+        <member name="T:Wordle.Repos.Dictonary.IDictonaryRepo">
+            <summary>
+                Repository for getting dictonary data.
+            </summary>
+        </member>
+        <member name="M:Wordle.Repos.Dictonary.IDictonaryRepo.IsWordValid(System.String)">
+            <summary>
+                Check if the word has a valid definiton.
+            </summary>
+        </member>
+        <member name="M:Wordle.Repos.Dictonary.IDictonaryRepo.GetRandomWord(System.Int32)">
+            <summary>
+                Get a random word with the given length.
+            </summary>
+        </member>
+        <member name="T:Wordle.Repos.Wordle.IWordleRepo">
+            <summary>
+                Repository for handling Wordle data.
+            </summary>
+        </member>
+        <member name="M:Wordle.Repos.Wordle.IWordleRepo.CreateGameInfoEntryAsync(System.String,System.Int32)">
+            <summary>
+                Create a new game entry.
+            </summary>
+            <param name="word">The correct word.</param>
+            <param name="maxAttempts">Max number of attempts allowed for this game.</param>
+        </member>
+        <member name="M:Wordle.Repos.Wordle.IWordleRepo.GetGameInfoAsync(System.Guid)">
+            <summary>
+                Get game info for a specific game by it's ID. Null if there's not match.
+            </summary>
+            <param name="Id">ID of the game.</param>
+        </member>
+        <member name="M:Wordle.Repos.Wordle.IWordleRepo.DeleteGameInfoEntryAsync(System.Guid)">
+            <summary>
+                Delete a game entry by it's ID.
+            </summary>
+        </member>
+        <member name="T:Wordle.Services.IWordleService">
+            <summary>
+                Service to start and play a game of Wordle.
+            </summary>
+        </member>
+        <member name="M:Wordle.Services.IWordleService.GetGameInfoAsync(System.Guid)">
+            <summary>
+                Get game info for a given game ID.
+            </summary>
+        </member>
+        <member name="M:Wordle.Services.IWordleService.InitilizeGameAsync(Wordle.Models.Domain.InitiateGameRequest)">
+            <summary>
+                Initilize the game.
+            </summary>
+        </member>
+        <member name="M:Wordle.Services.IWordleService.AbortGameAsync(System.Guid)">
+            <summary>
+                Abort an active game.
+            </summary>
+            <param name="gameId">Id of the game to abort.</param>
+        </member>
+        <member name="M:Wordle.Services.IWordleService.PerformGuessAsync(Wordle.Models.Domain.GuessRequest)">
+            <summary>
+                Make a guess for an active game. If no active game is found null will be returned.
+            </summary>
+        </member>
+    </members>
+</doc>

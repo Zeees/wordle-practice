@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="M:WordleAPI.Controllers.WordleController.InitiateGameAsync(Wordle.Models.Domain.InitiateGameRequest)">
+            <summary>
+                Initilize a game session.
+            </summary>
+            <response code="200">The game session was created.</response>
+            <response code="500">Something went wrong during the request, please try again later.</response>
+        </member>
+        <member name="M:WordleAPI.Controllers.WordleController.GuessAsync(Wordle.Models.Domain.GuessRequest)">
+            <summary>
+                Perform a guess in a Wordle game.
+            </summary>
+            <response code="200">A guess was made successfully.</response>
+            <response code="404">Couldn't find the given game session.</response>
+            <response code="500">Something went wrong with the request, try again and if that dosen't work contact support.</response>
+        </member>
+        <member name="M:WordleAPI.Controllers.WordleController.AbortGameAsync(System.Guid)">
+            <summary>
+                Aborts the wordle game session that belongs to the given ID.
+            </summary>
+            <response code="204">Game aborted, returns nothing.</response>
+            <response code="404">There's no game session with the given id.</response>
+            <response code="500">Something went wrong with the request, try again and if that dosen't work contact support.</response>
+            <remarks>
+                Example request:
+                
+                    DELETE Wordle/abort/1e80a24f-1399-43ea-ba0f-306f0a0dc0c6
+                    
+            </remarks>
+        </member>
+    </members>
+</doc>
