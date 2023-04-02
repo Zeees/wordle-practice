@@ -38,7 +38,7 @@ namespace Wordle
 
             services.AddHttpClient("RandomDictonary", x =>
             {
-                x.BaseAddress = new Uri(appSettings.DictonarySettings.RandomAPIUrl);
+                x.BaseAddress = new Uri(appSettings.DictonarySettings.RandomWordAPIUrl);
             });
 
             services.AddHttpClient("Dictonary", x =>

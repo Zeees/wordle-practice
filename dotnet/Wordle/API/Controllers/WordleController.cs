@@ -21,6 +21,29 @@ namespace WordleAPI.Controllers
         }
 
         /// <summary>
+        ///     Get the game info from an active game.
+        /// </summary>
+        /// <response code="200">Information of the game, everything needed to keep playing.</response>
+        /// <response code="404">There's not active game with the given id.</response>
+        /// <response code="500">Something went wrong during the request, please try again later.</response>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        public async Task<ActionResult<PublicGameInfo>> GetGameInfoAsync(Guid id)
+        {
+            var gameInfo = await _wordleService.GetGameInfoAsync(id);
+
+            if (gameInfo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(gameInfo);
+        }
+
+        /// <summary>
         ///     Initilize a game session.
         /// </summary>
         /// <response code="200">The game session was created.</response>

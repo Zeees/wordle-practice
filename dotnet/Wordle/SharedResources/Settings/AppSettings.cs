@@ -20,6 +20,6 @@ namespace SharedResources.Settings
     public class DictonarySettings
     {
         public string APIUrl { get; set; } = string.Empty;
-        public string RandomAPIUrl  { get; set; } = string.Empty;
+        public string RandomWordAPIUrl  { get; set; } = string.Empty;
     }
 }
