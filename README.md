@@ -20,9 +20,11 @@ Once you have Visual Studio is installed you can navigate to the project folder.
 
 For the API to function it requires a database connection. The simplest way of doing this is using the built in SQL server in Visual Studio. To do this simply select View -> SQL Server Object Explorer in the top toolbar. 
 
-![alt text](https://i.imgur.com/yZaFVKR.png "View menu option inside Visual Studio")
+![alt text](https://i.imgur.com/brEGgVq.png "View menu option inside Visual Studio")
 
 This will open a new window where you should have a local SQL Server. Expand it until you see a directory called "Databases". Right click this and select "Add new database". This will prompt you with a window where you can name the database for the project. Once you click "OK" you'll have a database setup and ready to use. 
+
+![alt text](https://i.imgur.com/B5b4hF4.png "Database creation prompt")
 
 Finally we also need to add in a connection string to the app settings file so the API knows what database to connect to. To do this, expand the API project in your solution explorer. Then select the appsettings.json and make a duplicate. Rename this duplocate to "appsettings.Development.json" Once you're done your solution explorer should look like below. 
 
@@ -30,7 +32,23 @@ Finally we also need to add in a connection string to the app settings file so t
 
 Next you'll want to open the "appsettings.Development.json" and make sure it looks like below. Replace [Name of database] with what ever you entered as the name of the database you created earlier. If you used another authentication method this string will be different. 
 
-![alt text](https://i.imgur.com/TJsHwNS.png "appsettings.Development.json")
+```
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "DatabaseSettings": {
+    "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=[Name of database];Trusted_Connection=True;"
+  },
+  "DictonarySettings": {
+    "APIUrl": "https://api.dictionaryapi.dev/api/v2",
+    "RandomWordAPIUrl": "https://random-word-api.herokuapp.com"
+  }
+}
+```
 
 The last the needed before we're ready is to create the required tables within the database. To do this, once again select view in the Visual Studio menu bar but this time choose "Terminal" 
 
