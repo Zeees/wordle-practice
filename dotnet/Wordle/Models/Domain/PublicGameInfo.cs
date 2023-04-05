@@ -33,6 +33,6 @@ namespace Wordle.Models.Domain
         ///     All guesses and results so far.
         /// </summary>
         [JsonPropertyName("guesses")]
-        public ICollection<ICollection<WordleLetter>>? Guesses { get; set; }
+        public ICollection<WordleGuess>? Guesses { get; set; }
     }
 }

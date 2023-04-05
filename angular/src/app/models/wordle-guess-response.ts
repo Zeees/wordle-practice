@@ -5,6 +5,11 @@ export class WordleGuessResponse {
     guess: string | undefined
     is_correct: boolean = false
     is_valid: boolean = false
+    guesses: WordleGuess[] = []
+}
+
+export class WordleGuess {
+    guess: string = ""
     letters: WordleLetter[] = []
 }
 
