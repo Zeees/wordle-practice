@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wordle.Contexts;
 using Wordle.Models.Database;
+using Wordle.Models.Domain;
 
 namespace Wordle.Repos.Wordle
 {
@@ -13,14 +15,17 @@ namespace Wordle.Repos.Wordle
     {
 
         private readonly WordleDatabaseContext _wordleContext;
+        private readonly IMapper _mapper;
 
         public WordleRepo(
-            WordleDatabaseContext wordleContext)
+            WordleDatabaseContext wordleContext,
+            IMapper mapper)
         {
             _wordleContext = wordleContext;
+            _mapper = mapper;
         }
 
-        public async Task<DbWordleGameInfo> CreateGameInfoEntryAsync(string word, int maxAttempts)
+        public async Task<GameInfo> CreateGameInfoEntryAsync(string word, int maxAttempts)
         {
             //Create a new game info object.
             var gameInfo = new DbWordleGameInfo()
@@ -39,7 +44,7 @@ namespace Wordle.Repos.Wordle
 
             await _wordleContext.SaveChangesAsync();
 
-            return gameInfo;
+            return _mapper.Map<GameInfo>(gameInfo);
         }
 
         public async Task<bool> DeleteGameInfoEntryAsync(Guid id)
@@ -63,12 +68,27 @@ namespace Wordle.Repos.Wordle
             return true;
         }
 
-        public async Task<DbWordleGameInfo?> GetGameInfoAsync(Guid id)
+        public async Task<GameInfo?> GetGameInfoAsync(Guid id)
         {
-            return await _wordleContext
+            var info = await _wordleContext
                 .WordleGameInfoEntires
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.GameId == id);
+
+            return _mapper.Map<GameInfo>(info);
+        }
+
+        public async Task<GameInfo> UpdateGameInfoAsync(GameInfo gameInfo)
+        {
+            var entry = _mapper.Map<DbWordleGameInfo>(gameInfo);
+
+            _wordleContext
+                .WordleGameInfoEntires
+                .Update(entry);
+
+            await _wordleContext .SaveChangesAsync();
+
+            return gameInfo;
         }
     }
 }

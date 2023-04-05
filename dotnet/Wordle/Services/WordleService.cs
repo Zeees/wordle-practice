@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using Wordle.Models.Domain;
 using Wordle.Repos.Dictonary;
 using Wordle.Repos.Wordle;
@@ -71,6 +72,7 @@ namespace Wordle.Services
             //Check if the game info exists and that the provided guess has the correct length.
             if(gameInfo == null) { return null; }
             if(gameInfo.Word.Length != guess.Guess.Length) { throw new ArgumentException("The provided guess needs to match the game settings word length."); }
+            if(gameInfo.Attempts + 1 >= gameInfo.MaxAttempts) { throw new ArgumentException("Maximum guesses exceeded"); }
 
             //Create a response.
             var response = new GuessResponse()
@@ -80,9 +82,27 @@ namespace Wordle.Services
                 IsValid = true
             };
 
+            //Assign statuses to letters.
             response.Letters = GetLetterStatus(guess.Guess, gameInfo.Word);
 
+            //Check if the game is won. 
             if(gameInfo.Word.ToUpper() == guess.Guess.ToUpper()) { response.IsCorrect = true; }
+
+            //Update game info.
+            gameInfo.Attempts++;
+            gameInfo.Guesses.Add(
+                new WordleGuess()
+                {
+                    Guess = guess.Guess,
+                    Letters = response.Letters
+                });
+
+            if(gameInfo.Attempts >= gameInfo.MaxAttempts)
+            {
+                gameInfo.IsDone = true;
+            }
+
+            await _wordleRepo.UpdateGameInfoAsync(gameInfo);
 
             return response;
         }
