@@ -1,70 +1,35 @@
-# Wordle Practice Project
+# Angular Wordle Client
 
-This project is for exploring new libraries, framworks and languages. 
+A client to run wordle games using the API that can be found in this repository. 
 
 ## Setting up
 
-### .NET API
+### Node.js
 
-#### IDE
+To run this project on your local machine you'll need to have Node.js installed on your system. You can find the latest verion of Node.js [here.](https://nodejs.org/en/download)
 
-To get the project ready the first thing needed is to get the backend API up an running. The simplest way of doing this is by installing Visual Studios. The IDE comes with everything we need already built in. Just make sure to include the Web option when installing. 
+### Angular CLI
 
-[Download Visual Studios](https://visualstudio.microsoft.com/downloads/)
-
-#### Project
-
-Once you have Visual Studio is installed you can navigate to the project folder. Inside the folder called "dotnet" you'll find a .sln file. Open this file using Visual Studio and the project will be ready. 
-
-#### Database
-
-For the API to function it requires a database connection. The simplest way of doing this is using the built in SQL server in Visual Studio. To do this simply select View -> SQL Server Object Explorer in the top toolbar. 
-
-![alt text](https://i.imgur.com/brEGgVq.png "View menu option inside Visual Studio")
-
-This will open a new window where you should have a local SQL Server. Expand it until you see a directory called "Databases". Right click this and select "Add new database". This will prompt you with a window where you can name the database for the project. Once you click "OK" you'll have a database setup and ready to use. 
-
-![alt text](https://i.imgur.com/B5b4hF4.png "Database creation prompt")
-
-Finally we also need to add in a connection string to the app settings file so the API knows what database to connect to. To do this, expand the API project in your solution explorer. Then select the appsettings.json and make a duplicate. Rename this duplocate to "appsettings.Development.json" Once you're done your solution explorer should look like below. 
-
-![alt text](https://i.imgur.com/3b3rMKY.png "Solution explorer")
-
-Next you'll want to open the "appsettings.Development.json" and make sure it looks like below. Replace [Name of database] with what ever you entered as the name of the database you created earlier. If you used another authentication method this string will be different. 
+To start this project you'll first need to install the angular CLI. To do this, open up a terminal or similar and type the following command. Keep in mind that node package manager(NPM) needs to be installed on your system for this to work. NPM should be installed alongside Node.js when using the installer found by following the link above. 
 
 ```
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "DatabaseSettings": {
-    "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=[Name of database];Trusted_Connection=True;"
-  },
-  "DictonarySettings": {
-    "APIUrl": "https://api.dictionaryapi.dev/api/v2",
-    "RandomWordAPIUrl": "https://random-word-api.herokuapp.com"
-  }
-}
+ npm install -g @angular/cli
 ```
 
-The last the needed before we're ready is to create the required tables within the database. To do this, once again select view in the Visual Studio menu bar but this time choose "Terminal" 
+### Installing project dependencies
 
-![alt text](https://i.imgur.com/UN9n4py.png "Menu for terminal")
-
-With the terminal open you'll want to navigate into the API folder within the solution. Once you're inside the API folder the command below will setup the database with everything you need to run the project. 
+As a final step before the app is ready to run, the project dependencies needs to be installed. Open your CMD/Terminal and navigate to the angular project folder. Once inside run the following command: 
 
 ```
-dotnet ef database update --context WordleDatabaseContex
+ npm install
 ```
 
-Once the command has run you can start the project. Make sure you have API as the selected project in the drop down and hit the green arrow in the toolbar. A page with the projects Swagger doc should open and the project is good to go. If you want to test to see if everything is working,  expand the POST /api/Wordle/start endpoint and run it with the default parameters. It should return a 200 OK with a GUID of the started game. 
+### Starting the project
 
+With everything setup, simply run the following command inside the angular project folder to start the project. 
 
+```
+ npm start
+```
 
-
-
-
-
+You'll be able to view the project at [https://localhost:4200](https://localhost:4200)
