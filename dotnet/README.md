@@ -1,22 +1,20 @@
-# Wordle Practice Project
+# .NET Wordle API
 
-This project is for exploring new libraries, framworks and languages. 
+An API to run Wordle games. 
 
 ## Setting up
 
-### .NET API
-
-#### IDE
+### IDE
 
 To get the project ready the first thing needed is to get the backend API up an running. The simplest way of doing this is by installing Visual Studios. The IDE comes with everything we need already built in. Just make sure to include the Web option when installing. 
 
 [Download Visual Studios](https://visualstudio.microsoft.com/downloads/)
 
-#### Project
+### Project
 
 Once you have Visual Studio is installed you can navigate to the project folder. Inside the folder called "dotnet" you'll find a .sln file. Open this file using Visual Studio and the project will be ready. 
 
-#### Database
+### Database
 
 For the API to function it requires a database connection. The simplest way of doing this is using the built in SQL server in Visual Studio. To do this simply select View -> SQL Server Object Explorer in the top toolbar. 
 
