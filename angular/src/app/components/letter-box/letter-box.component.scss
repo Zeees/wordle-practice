@@ -1,0 +1,27 @@
+.box {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    border: 1px solid var(--border-letter-box);
+    border-radius: 5px;
+
+    width: 50px;
+    height: 60px;
+
+    font-size: 24pt;
+
+    &.WrongPosition {
+        background-color: var(--letter-wrong-position);
+    }
+
+    &.WrongLetter {
+        background-color: var(--letter-wrong-letter);
+    }
+
+    &.Correct {
+        background-color: var(--letter-correct);
+    }
+}

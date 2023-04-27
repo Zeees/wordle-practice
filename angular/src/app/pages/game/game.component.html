@@ -1,1 +1,33 @@
-<p>game works!</p>
+<div class="wrapper">
+
+    <div class="playfield">
+
+        <div class="row" *ngFor="let row of getRows()">
+            <app-letter-box
+                *ngFor="let letter of row"
+                [letter]="letter"></app-letter-box>
+        </div>
+
+    </div>
+
+    <div class="answer" *ngIf="correctWord.length > 0">
+        Answer: {{correctWord}}
+    </div>
+
+    <div class="letters">
+        <div class="char"
+            *ngFor="let c of getValidLetters()"
+            [ngClass]="{invalid : !isLetterValid(c)}">
+            {{c}}
+        </div>
+    </div>
+
+    <button (click)="restart()" *ngIf="isDone()">
+        Restart
+    </button>
+
+    <button (click)="goBackToStart()" *ngIf="isDone()">
+        Back to start
+    </button>
+
+</div>

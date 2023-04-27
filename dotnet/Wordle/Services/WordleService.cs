@@ -28,11 +28,30 @@ namespace Wordle.Services
             return await _wordleRepo.DeleteGameInfoEntryAsync(gameId);
         }
 
-        public async Task<PublicGameInfo?> GetGameInfoAsync(Guid gameId)
+        public async Task<PublicWordleGameInfo?> GetGameInfoAsync(Guid gameId)
         {
             var gameInfo = await _wordleRepo.GetGameInfoAsync(gameId);
             if(gameInfo == null) { return null; }
-            return _mapper.Map<PublicGameInfo?>(gameInfo);
+            return _mapper.Map<PublicWordleGameInfo?>(gameInfo);
+        }
+
+        public async Task<WordleCorrectWordResponse?> GetCorrectWord(Guid gameId)
+        {
+            var gameInfo = await _wordleRepo.GetGameInfoAsync(gameId);
+
+            if(gameInfo == null) { return null; }
+
+            //Only return the correct word if the game is marked as done. 
+            if(gameInfo.IsDone)
+            {
+                return new WordleCorrectWordResponse()
+                {
+                    CorrectWord = gameInfo.Word
+                };
+            }
+
+            return null;
+
         }
 
         public async Task<InitialGameResponse> InitilizeGameAsync(InitiateGameRequest request)
@@ -72,7 +91,7 @@ namespace Wordle.Services
             //Check if the game info exists and that the provided guess has the correct length.
             if(gameInfo == null) { return null; }
             if(gameInfo.Word.Length != guess.Guess.Length) { throw new ArgumentException("The provided guess needs to match the game settings word length."); }
-            if(gameInfo.Attempts + 1 >= gameInfo.MaxAttempts) { throw new ArgumentException("Maximum guesses exceeded"); }
+            if(gameInfo.Attempts + 1 > gameInfo.MaxAttempts) { throw new ArgumentException("Maximum guesses exceeded"); }
 
             //Create a response.
             var response = new GuessResponse()
@@ -122,8 +141,40 @@ namespace Wordle.Services
                     Status = LetterStatus.WrongLetter
                 };
 
-                if (answer[i] == guess[i]) { letter.Status = LetterStatus.Correct; }
-                else if (answer.Contains(guess[i])) { letter.Status = LetterStatus.WrongPosition; }
+                if (answer[i] == guess[i]) 
+                { 
+                    letter.Status = LetterStatus.Correct;
+                }
+                else if (answer.Contains(guess[i])) 
+                { 
+                    //Get the number of occurances in both the guess and answer.
+                    var indexesAnswer = GetIndexesOf(guess[i], answer);
+                    var indexesGuess = GetIndexesOf(guess[i], guess);
+
+                    //If the number of occurances are the same or if the answer has more, the letter is in the wrong position.
+                    if(indexesAnswer.Count() >= indexesGuess.Count())
+                    {
+                        letter.Status = LetterStatus.WrongPosition;
+                    }
+                    //If there are more occurances in the guess than the answer, then check to see if the player has already
+                    //guessed the correct amount of the given letter. If this is the case, mark the letter as wrong.
+                    else if(indexesAnswer.Count() < indexesGuess.Count())
+                    {
+                        var correctCount = 0;
+
+                        foreach(var index in indexesAnswer)
+                        {
+                            if (answer[index] == guess[index]) { correctCount++; }
+                        }
+
+                        if(correctCount <= indexesGuess.Count())
+                        {
+                            letter.Status = LetterStatus.WrongLetter;
+                        }
+
+                    }
+                    
+                }
 
                 response.Add(letter);
             }
@@ -131,5 +182,19 @@ namespace Wordle.Services
             return response;
         
         }
+
+        private IEnumerable<int> GetIndexesOf(char c, string s)
+        {
+            var indexes = new List<int>();
+
+            for(int i = s.IndexOf(c); i > -1; i = s.IndexOf(c, i+1))
+            {
+                indexes.Add(i);
+            }
+
+            return indexes;
+        }
+
+        
     }
 }

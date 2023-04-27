@@ -34,7 +34,7 @@ namespace Wordle.Repos.Dictonary
         {
             var client = _httpClientFactory.CreateClient("Dictonary");
 
-            var definition = await HttpClientHelper.GetAsync<ICollection<WordDefinition>>(client, $"entries/en/{word}");
+            var definition = await HttpClientHelper.GetAsync<ICollection<WordDefinition>>(client, $"api/v2/entries/en/{word}");
 
             return definition != null;
         }

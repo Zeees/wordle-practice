@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --background: #222222;
+    --text-default: #FFF;
+
+    --border-letter-box: #505050;
+
+    --letter-correct: #35a800;
+    --letter-wrong-letter: #b40000;
+    --letter-wrong-position: #dbdf00;
+}
+
+html, body {
+    margin: 0xp;
+
+    background-color: var(--background);
+    color: var(--text-default);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    min-width: 200px;
+    padding: 10px 0px;
+
+    background-color: #149225;
+    color: var(--text);
+
+    font-size: 16pt;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 5px;
+
+    transition: .2s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #0f6e1c;
+        transition: .2s;
+    }
+}

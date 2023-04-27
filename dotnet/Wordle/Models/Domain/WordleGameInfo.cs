@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wordle.Models.Domain
 {
-    public class GameInfo
+    public class WordleGameInfo
     {
         public Guid GameId { get; set; }
         public string Word { get; set; } = string.Empty;

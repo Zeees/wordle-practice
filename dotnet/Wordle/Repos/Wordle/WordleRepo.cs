@@ -25,7 +25,7 @@ namespace Wordle.Repos.Wordle
             _mapper = mapper;
         }
 
-        public async Task<GameInfo> CreateGameInfoEntryAsync(string word, int maxAttempts)
+        public async Task<WordleGameInfo> CreateGameInfoEntryAsync(string word, int maxAttempts)
         {
             //Create a new game info object.
             var gameInfo = new DbWordleGameInfo()
@@ -35,7 +35,8 @@ namespace Wordle.Repos.Wordle
                 Word = word,
                 IsDone = false,
                 CreatedAt = DateTime.UtcNow,
-                LastUpdatedAt = DateTime.UtcNow
+                LastUpdatedAt = DateTime.UtcNow,
+                GuessesJson = "[]"
             };
 
             _wordleContext
@@ -44,7 +45,7 @@ namespace Wordle.Repos.Wordle
 
             await _wordleContext.SaveChangesAsync();
 
-            return _mapper.Map<GameInfo>(gameInfo);
+            return _mapper.Map<WordleGameInfo>(gameInfo);
         }
 
         public async Task<bool> DeleteGameInfoEntryAsync(Guid id)
@@ -68,17 +69,17 @@ namespace Wordle.Repos.Wordle
             return true;
         }
 
-        public async Task<GameInfo?> GetGameInfoAsync(Guid id)
+        public async Task<WordleGameInfo?> GetGameInfoAsync(Guid id)
         {
             var info = await _wordleContext
                 .WordleGameInfoEntires
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.GameId == id);
 
-            return _mapper.Map<GameInfo>(info);
+            return _mapper.Map<WordleGameInfo>(info);
         }
 
-        public async Task<GameInfo> UpdateGameInfoAsync(GameInfo gameInfo)
+        public async Task<WordleGameInfo> UpdateGameInfoAsync(WordleGameInfo gameInfo)
         {
             var entry = _mapper.Map<DbWordleGameInfo>(gameInfo);
 

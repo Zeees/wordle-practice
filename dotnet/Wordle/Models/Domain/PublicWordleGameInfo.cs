@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wordle.Models.Domain
 {
-    public class PublicGameInfo
+    public class PublicWordleGameInfo
     {
         /// <summary>
         ///     Game session id for the active game.

@@ -15,7 +15,12 @@ namespace Wordle.Services
         /// <summary>
         ///     Get game info for a given game ID.
         /// </summary>
-        Task<PublicGameInfo?> GetGameInfoAsync(Guid gameId);
+        Task<PublicWordleGameInfo?> GetGameInfoAsync(Guid gameId);
+        /// <summary>
+        ///     Get the correct word for the given game ID. This will only return a value if the game exists and is marked as done. 
+        /// </summary>
+        /// <returns></returns>
+        Task<WordleCorrectWordResponse?> GetCorrectWord(Guid gameId);
         /// <summary>
         ///     Initilize the game.
         /// </summary>

@@ -1,1 +1,19 @@
-<p>start works!</p>
+<div class="init-form" [formGroup]="initGameForm">
+
+    <div class="form-control">
+        <label>Number of attempts</label>
+        <input 
+            type="number"
+            formControlName="number_of_attempts" />
+    </div>
+
+    <div class="form-control">
+        <label>Word length</label>
+        <input 
+            type="number" 
+            formControlName="word_length" />
+    </div>
+
+    <button (click)="initGame()">Start</button>
+
+</div>

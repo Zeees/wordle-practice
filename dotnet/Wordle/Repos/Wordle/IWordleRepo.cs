@@ -18,12 +18,12 @@ namespace Wordle.Repos.Wordle
         /// </summary>
         /// <param name="word">The correct word.</param>
         /// <param name="maxAttempts">Max number of attempts allowed for this game.</param>
-        Task<GameInfo> CreateGameInfoEntryAsync(string word, int maxAttempts);
+        Task<WordleGameInfo> CreateGameInfoEntryAsync(string word, int maxAttempts);
         /// <summary>
         ///     Get game info for a specific game by it's ID. Null if there's not match.
         /// </summary>
         /// <param name="Id">ID of the game.</param>
-        Task<GameInfo?> GetGameInfoAsync(Guid id);
+        Task<WordleGameInfo?> GetGameInfoAsync(Guid id);
         /// <summary>
         ///     Delete a game entry by it's ID.
         /// </summary>
@@ -31,6 +31,6 @@ namespace Wordle.Repos.Wordle
         /// <summary>
         ///     Updates and existing game info entry.
         /// </summary>
-        Task<GameInfo> UpdateGameInfoAsync(GameInfo gameInfo);
+        Task<WordleGameInfo> UpdateGameInfoAsync(WordleGameInfo gameInfo);
     }
 }

@@ -7,18 +7,22 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { StartComponent } from './pages/start/start.component';
 import { GameComponent } from './pages/game/game.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LetterBoxComponent } from './components/letter-box/letter-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     StartComponent,
-    GameComponent
+    GameComponent,
+    LetterBoxComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

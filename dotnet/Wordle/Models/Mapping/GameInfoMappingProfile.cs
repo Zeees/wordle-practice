@@ -15,13 +15,13 @@ namespace Wordle.Models.Mapping
     {
         public GameInfoMappingProfile()
         {
-            CreateMap<GameInfo, PublicGameInfo>()
+            CreateMap<WordleGameInfo, PublicWordleGameInfo>()
                 .ForMember(x => x.WordLength, opt => opt.MapFrom(src => src.Word.Length));
 
-            CreateMap<DbWordleGameInfo, GameInfo>()
+            CreateMap<DbWordleGameInfo, WordleGameInfo>()
                 .ForMember(x => x.Guesses, opt => opt.MapFrom(src => GetGuessesFromJson(src.GuessesJson)));
 
-            CreateMap<GameInfo, DbWordleGameInfo>()
+            CreateMap<WordleGameInfo, DbWordleGameInfo>()
                 .ForMember(x => x.GuessesJson, opt => opt.MapFrom(src => ToJson<ICollection<WordleGuess>>(src.Guesses)));
         }
 

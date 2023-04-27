@@ -1,0 +1,55 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .playfield {
+        display: flex;
+        flex-direction: column;
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            & > * {
+                padding: 10px
+            }
+        }
+    }
+
+    .answer {
+        font-size: 32pt;
+
+        margin: 20px 0px;
+
+    }
+
+    .letters {
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        max-width: 500px;
+
+
+        .char {
+            border: 1px solid var(--border-letter-box);
+            border-radius: 5px;
+            padding: 10px 20px;
+
+            margin: 5px;
+
+            &.invalid {
+                color: var(--border-letter-box);
+            }
+        }
+
+    }
+
+    button {
+        margin-top: 20px;
+    }
+}

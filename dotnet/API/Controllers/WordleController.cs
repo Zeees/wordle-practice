@@ -31,7 +31,7 @@ namespace WordleAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult<PublicGameInfo>> GetGameInfoAsync(Guid id)
+        public async Task<ActionResult<PublicWordleGameInfo>> GetGameInfoAsync(Guid id)
         {
             var gameInfo = await _wordleService.GetGameInfoAsync(id);
 
@@ -41,6 +41,29 @@ namespace WordleAPI.Controllers
             }
 
             return Ok(gameInfo);
+        }
+
+        /// <summary>
+        ///     Get the correct word for the given game ID. This will only return a value if the game is done. 
+        /// </summary>
+        /// <response code="200">The correct word for the game.</response>
+        /// <response code="404">There's not active game with the given id/the game has not finished.</response>
+        /// <response code="500">Something went wrong during the request, please try again later.</response>
+        [HttpGet("{id}/answer")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        public async Task<ActionResult<WordleCorrectWordResponse>> GetCorrectWordAsync(Guid id)
+        {
+            var response = await _wordleService.GetCorrectWord(id);
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(response);
         }
 
         /// <summary>

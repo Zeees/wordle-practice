@@ -18,7 +18,7 @@ namespace WordleTest
     {
         [Theory]
         [MemberData(nameof(GameInfoTestData))]
-        public async void GetGameInfoTest(Guid gameId, PublicGameInfo? expectedResponse)
+        public async void GetGameInfoTest(Guid gameId, PublicWordleGameInfo? expectedResponse)
         {
             var dictonaryRepo = new Mock<IDictonaryRepo>();
             var wordleRepo = new Mock<IWordleRepo>();
@@ -28,7 +28,7 @@ namespace WordleTest
                 if (gameId != new Guid("7147951d-0f2a-4611-ae8f-28fbdd86c5b6"))
                     return null;
                 else
-                    return new DbWordleGameInfo()
+                    return new WordleGameInfo()
                     {
                         GameId = new Guid("7147951d-0f2a-4611-ae8f-28fbdd86c5b6"),
                         Attempts = 1,
@@ -37,7 +37,41 @@ namespace WordleTest
                         LastUpdatedAt = DateTime.MinValue,
                         MaxAttempts = 5,
                         IsDone = false,
-                        GuessesJson = "[[{\"letter\":\"L\",\"status\":\"WrongPosition\"},{\"letter\":\"O\",\"status\":\"Correct\"},{\"letter\":\"S\",\"status\":\"WrongLetter\"},{\"letter\":\"E\",\"status\":\"WrongPosition\"},{\"letter\":\"R\",\"status\":\"WrongLetter\"}]]"
+                        Guesses = new List<WordleGuess>
+                        {
+                            new WordleGuess()
+                            {
+                                Guess = "LOSER",
+                                Letters = new List<WordleLetter>
+                                {
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'L',
+                                        Status = LetterStatus.WrongPosition
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'O',
+                                        Status = LetterStatus.Correct
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'S',
+                                        Status = LetterStatus.WrongLetter
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'E',
+                                        Status = LetterStatus.WrongPosition
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'R',
+                                        Status = LetterStatus.WrongLetter
+                                    }
+                                }
+                            }
+                        },
                     };
             });
             var mapper = SetupMapper();
@@ -70,7 +104,7 @@ namespace WordleTest
             dictonaryRepo.Setup(x => x.GetRandomWord(wordLength)).ReturnsAsync(returnedWord);
             var wordleRepo = new Mock<IWordleRepo>();
             wordleRepo.Setup(x => x.CreateGameInfoEntryAsync(returnedWord, numberOfAttempts)).ReturnsAsync(
-                new DbWordleGameInfo()
+                new WordleGameInfo()
                 {
                     GameId = new Guid("7147951d-0f2a-4611-ae8f-28fbdd86c5b6"),
                     Attempts = 0,
@@ -78,7 +112,8 @@ namespace WordleTest
                     CreatedAt = DateTime.MinValue,
                     LastUpdatedAt = DateTime.MinValue,
                     MaxAttempts = numberOfAttempts,
-                    IsDone = false
+                    IsDone = false,
+                    Guesses = new List<WordleGuess>()
                 });
             var mapper = SetupMapper();
 
@@ -115,7 +150,7 @@ namespace WordleTest
                         if (guessRequest.GameID != new Guid("7147951d-0f2a-4611-ae8f-28fbdd86c5b6"))
                             return null;
                         else
-                            return new DbWordleGameInfo()
+                            return new WordleGameInfo()
                             {
                                 GameId = new Guid("7147951d-0f2a-4611-ae8f-28fbdd86c5b6"),
                                 Attempts = 0,
@@ -123,7 +158,8 @@ namespace WordleTest
                                 Word = "YODLE",
                                 MaxAttempts = 5,
                                 CreatedAt = DateTime.MinValue,
-                                LastUpdatedAt = DateTime.MinValue
+                                LastUpdatedAt = DateTime.MinValue,
+                                Guesses = new List<WordleGuess>()
                             };
                     });
             var mapper = SetupMapper();
@@ -155,40 +191,44 @@ namespace WordleTest
                 new object[]
                 {
                     new Guid("7147951d-0f2a-4611-ae8f-28fbdd86c5b6"),
-                    new PublicGameInfo()
+                    new PublicWordleGameInfo()
                     {
                         GameId = new Guid("7147951d-0f2a-4611-ae8f-28fbdd86c5b6"),
                         Attempts = 1,
                         MaxAttempts = 5,
                         WordLength = 5,
-                        Guesses = new List<ICollection<WordleLetter>>()
+                        Guesses = new List<WordleGuess>()
                         {
-                            new List<WordleLetter>()
+                            new WordleGuess()
                             {
-                                new WordleLetter()
+                                Guess = "LOSER",
+                                Letters = new List<WordleLetter>()
                                 {
-                                    Letter = 'L',
-                                    Status = LetterStatus.WrongPosition
-                                },
-                                new WordleLetter()
-                                {
-                                    Letter = 'O',
-                                    Status = LetterStatus.Correct
-                                },
-                                new WordleLetter()
-                                {
-                                    Letter = 'S',
-                                    Status = LetterStatus.WrongLetter
-                                },
-                                new WordleLetter()
-                                {
-                                    Letter = 'E',
-                                    Status = LetterStatus.WrongPosition
-                                },
-                                new WordleLetter()
-                                {
-                                    Letter = 'R',
-                                    Status = LetterStatus.WrongLetter
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'L',
+                                        Status = LetterStatus.WrongPosition
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'O',
+                                        Status = LetterStatus.Correct
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'S',
+                                        Status = LetterStatus.WrongLetter
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'E',
+                                        Status = LetterStatus.WrongPosition
+                                    },
+                                    new WordleLetter()
+                                    {
+                                        Letter = 'R',
+                                        Status = LetterStatus.WrongLetter
+                                    }
                                 }
                             }
                         }

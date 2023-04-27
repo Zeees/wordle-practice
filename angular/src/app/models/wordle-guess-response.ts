@@ -5,7 +5,7 @@ export class WordleGuessResponse {
     guess: string | undefined
     is_correct: boolean = false
     is_valid: boolean = false
-    guesses: WordleGuess[] = []
+    letters: WordleLetter[] = []
 }
 
 export class WordleGuess {
