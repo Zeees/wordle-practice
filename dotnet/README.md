@@ -52,6 +52,12 @@ The last the needed before we're ready is to create the required tables within t
 
 ![alt text](https://i.imgur.com/UN9n4py.png "Menu for terminal")
 
+If you don't already have the dotnet-ef tools installled you'll want to run the following command first:
+
+```
+dotnet tool install --global dotnet-ef
+```
+
 With the terminal open you'll want to navigate into the API folder within the solution. Once you're inside the API folder the command below will setup the database with everything you need to run the project. 
 
 ```
